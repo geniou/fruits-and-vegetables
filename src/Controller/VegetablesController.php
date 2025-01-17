@@ -6,31 +6,31 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Fruit;
+use App\Entity\Vegetable;
 use Doctrine\ORM\EntityManagerInterface;
 
 # TODO: both controllers are almost identical, consider refactoring them
-#[Route(path: '/fruit')]
-class FruitsController extends AbstractController
+#[Route(path: '/vegetable')]
+class VegetablesController extends AbstractController
 {
     #[Route(path: '/{id}', methods: [Request::METHOD_GET])]
     public function show(EntityManagerInterface $entityManager, int $id): JsonResponse
     {
-        $fruit = $entityManager->getRepository(Fruit::class)->find($id);
+        $vegetable = $entityManager->getRepository(Vegetable::class)->find($id);
 
-        if (!$fruit) {
-            throw $this->createNotFoundException('Fruit not found');
+        if (!$vegetable) {
+            throw $this->createNotFoundException('Vegetable not found');
         }
 
-        return $this->json($fruit);
+        return $this->json($vegetable);
     }
 
     #[Route(path: '', methods: [Request::METHOD_GET])]
     public function list(EntityManagerInterface $entityManager): JsonResponse
     {
-        $fruits = $entityManager->getRepository(Fruit::class)->findAll();
+        $vegetables = $entityManager->getRepository(Vegetable::class)->findAll();
 
-        return $this->json($fruits);
+        return $this->json($vegetables);
     }
 
     #[Route(path: '', methods: [Request::METHOD_POST])]
@@ -38,13 +38,13 @@ class FruitsController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
 
-        $fruit = new Fruit();
-        $fruit->setName($data['name']);
-        $fruit->setQuantity($data['quantity']);
+        $vegetable = new Vegetable();
+        $vegetable->setName($data['name']);
+        $vegetable->setQuantity($data['quantity']);
 
-        $entityManager->persist($fruit);
+        $entityManager->persist($vegetable);
         $entityManager->flush();
 
-        return $this->json($fruit);
+        return $this->json($vegetable);
     }
 }
