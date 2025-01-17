@@ -1,0 +1,9 @@
+[
+    {
+      "id": 1,
+      "name": "Blueberries",
+      "type": "berry",
+      "quantity": 10922,
+      "unit": "g"
+    }
+]

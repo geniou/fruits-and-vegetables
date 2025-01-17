@@ -1,0 +1,16 @@
+[
+    {
+      "id": 1,
+      "name": "Carrot",
+      "type": "vegetable",
+      "quantity": 10922,
+      "unit": "g"
+    },
+    {
+      "id": 2,
+      "name": "Apples",
+      "type": "fruit",
+      "quantity": 20,
+      "unit": "kg"
+    }
+]
