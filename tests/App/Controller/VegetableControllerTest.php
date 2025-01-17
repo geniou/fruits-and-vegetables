@@ -22,7 +22,7 @@ class VegetableControllerTest extends WebTestCase
 
     public function testIndex(): void
     {
-        $this->client->request('GET', '/vegetable');
+        $this->client->request('GET', '/food/vegetable');
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
@@ -37,7 +37,7 @@ class VegetableControllerTest extends WebTestCase
 
     public function testShow(): void
     {
-        $this->client->request('GET', '/vegetable/1');
+        $this->client->request('GET', '/food/vegetable/1');
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
@@ -52,7 +52,7 @@ class VegetableControllerTest extends WebTestCase
 
     public function testCreate(): void
     {
-        $this->client->request('POST', '/vegetable', [], [], [], json_encode([
+        $this->client->request('POST', '/food/vegetable', [], [], [], json_encode([
             'name' => 'Orange',
             'quantity' => 100
         ]));

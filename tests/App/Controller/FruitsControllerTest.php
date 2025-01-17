@@ -22,7 +22,7 @@ class FruitControllerTest extends WebTestCase
 
     public function testIndex(): void
     {
-        $this->client->request('GET', '/fruit');
+        $this->client->request('GET', '/food/fruit');
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
@@ -37,7 +37,7 @@ class FruitControllerTest extends WebTestCase
 
     public function testShow(): void
     {
-        $this->client->request('GET', '/fruit/1');
+        $this->client->request('GET', '/food/fruit/1');
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
@@ -52,7 +52,7 @@ class FruitControllerTest extends WebTestCase
 
     public function testCreate(): void
     {
-        $this->client->request('POST', '/fruit', [], [], [], json_encode([
+        $this->client->request('POST', '/food/fruit', [], [], [], json_encode([
             'name' => 'Orange',
             'quantity' => 100
         ]));
