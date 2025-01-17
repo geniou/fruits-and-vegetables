@@ -31,4 +31,19 @@ class FruitsController extends AbstractController
 
         return $this->json($fruits);
     }
+
+    #[Route(path: '', methods: [Request::METHOD_POST])]
+    public function create(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $fruit = new Fruit();
+        $fruit->setName($data['name']);
+        $fruit->setQuantity($data['quantity']);
+
+        $entityManager->persist($fruit);
+        $entityManager->flush();
+
+        return $this->json($fruit);
+    }
 }

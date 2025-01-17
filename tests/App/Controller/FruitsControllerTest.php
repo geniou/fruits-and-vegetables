@@ -50,5 +50,24 @@ class FruitControllerTest extends WebTestCase
         $this->assertArrayHasKey('quantity', $responseData);
     }
 
+    public function testCreate(): void
+    {
+        $this->client->request('POST', '/fruit', [], [], [], json_encode([
+            'name' => 'Orange',
+            'quantity' => 100
+        ]));
 
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+
+        $this->assertJson($this->client->getResponse()->getContent());
+
+        $responseData = json_decode($this->client->getResponse()->getContent(), true);
+
+        $this->assertIsArray($responseData);
+        $this->assertArrayHasKey('name', $responseData);
+        $this->assertArrayHasKey('quantity', $responseData);
+
+        $this->assertSame('Orange', $responseData['name']);
+        $this->assertSame(100, $responseData['quantity']);
+    }
 }
