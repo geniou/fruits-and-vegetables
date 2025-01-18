@@ -92,9 +92,9 @@ class ImportCommandTest extends KernelTestCase
             ->method('persist')
             ->with($this->callback(function ($entity) {
                 if ($entity instanceof Fruit) {
-                    return 2 === $entity->getId() && 'Apples' === $entity->getName() && 20000 === $entity->getQuantity();
+                    return 'Apples' === $entity->getName() && 20000 === $entity->getQuantity();
                 } elseif ($entity instanceof Vegetable) {
-                    return 1 === $entity->getId() && 'Carrot' === $entity->getName() && 10922 === $entity->getQuantity();
+                    return 'Carrot' === $entity->getName() && 10922 === $entity->getQuantity();
                 } else {
                     return false;
                 }

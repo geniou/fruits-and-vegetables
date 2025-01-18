@@ -5,19 +5,23 @@ namespace Tests\App\Controller;
 use App\DataFixtures\FruitFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use App\Entity\Fruit;
 
 class FruitControllerTest extends WebTestCase
 {
     private $client;
+    private $entityManager;
 
     protected function setUp(): void
     {
         $this->client = static::createClient();
 
-        $entityManager = self::getContainer()->get('doctrine')->getManager();
+        $this->entityManager = self::getContainer()->get('doctrine')->getManager();
 
+        // empty table before each test
+        $this->entityManager->getRepository(Fruit::class)->deleteAll();
         $fixture = new FruitFixtures();
-        $fixture->load($entityManager);
+        $fixture->load($this->entityManager);
     }
 
     public function testIndex(): void
@@ -37,7 +41,9 @@ class FruitControllerTest extends WebTestCase
 
     public function testShow(): void
     {
-        $this->client->request('GET', '/food/fruit/1');
+        // get id of first fruit
+        $id = $this->entityManager->getRepository(Fruit::class)->findAll()[0]->getId();
+        $this->client->request('GET', '/food/fruit/'.$id);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 

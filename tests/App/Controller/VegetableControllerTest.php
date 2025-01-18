@@ -3,21 +3,24 @@
 namespace Tests\App\Controller;
 
 use App\DataFixtures\VegetableFixtures;
+use App\Entity\Vegetable;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 class VegetableControllerTest extends WebTestCase
 {
     private $client;
+    private EntityManager $entityManager;
 
     protected function setUp(): void
     {
         $this->client = static::createClient();
 
-        $entityManager = self::getContainer()->get('doctrine')->getManager();
+        $this->entityManager = self::getContainer()->get('doctrine')->getManager();
 
         $fixture = new VegetableFixtures();
-        $fixture->load($entityManager);
+        $fixture->load($this->entityManager);
     }
 
     public function testIndex(): void
@@ -37,7 +40,9 @@ class VegetableControllerTest extends WebTestCase
 
     public function testShow(): void
     {
-        $this->client->request('GET', '/food/vegetable/1');
+        // get id of first fruit
+        $id = $this->entityManager->getRepository(Vegetable::class)->findAll()[0]->getId();
+        $this->client->request('GET', '/food/vegetable/'.$id);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 

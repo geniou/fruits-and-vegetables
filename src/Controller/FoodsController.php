@@ -15,7 +15,7 @@ class FoodsController extends AbstractController
 {
     private function getFoodClass(string $food): string
     {
-        return 'food' === $food ? Fruit::class : Vegetable::class;
+        return 'fruit' === $food ? Fruit::class : Vegetable::class;
     }
 
     #[Route(path: '/{id}', methods: [Request::METHOD_GET])]
@@ -31,9 +31,9 @@ class FoodsController extends AbstractController
     }
 
     #[Route(path: '', methods: [Request::METHOD_GET])]
-    public function list(EntityManagerInterface $entityManager, string $food): JsonResponse
+    public function list(EntityManagerInterface $entityManager, string $food, Request $request): JsonResponse
     {
-        $foods = $entityManager->getRepository($this->getFoodClass($food))->findAll();
+        $foods = $entityManager->getRepository($this->getFoodClass($food))->findByName($request->query->get('name'));
 
         return $this->json($foods);
     }

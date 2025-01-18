@@ -64,7 +64,8 @@ class ImportCommand extends Command
                 $output->writeln('<error>Unkown type</error>');
                 return Command::FAILURE;
             }
-            $food->setId($item['id']);
+            // ID is auto-generated and cannot be set
+            // $food->setId($item['id']);
 
             if ('g' === $item['unit']) {
                 $food->setQuantity($item['quantity']);
