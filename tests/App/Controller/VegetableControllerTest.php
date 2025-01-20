@@ -40,9 +40,9 @@ class VegetableControllerTest extends WebTestCase
 
     public function testShow(): void
     {
-        // get id of first fruit
-        $id = $this->entityManager->getRepository(Vegetable::class)->findAll()[0]->getId();
-        $this->client->request('GET', '/food/vegetable/'.$id);
+        // get first vegetable
+        $vegetable = $this->entityManager->getRepository(Vegetable::class)->findAll()[0];
+        $this->client->request('GET', '/food/vegetable/'.$vegetable->getId());
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
@@ -53,6 +53,8 @@ class VegetableControllerTest extends WebTestCase
         $this->assertIsArray($responseData);
         $this->assertArrayHasKey('name', $responseData);
         $this->assertArrayHasKey('quantity', $responseData);
+
+        $this->assertSame($vegetable->getName(), $responseData['name']);
     }
 
     public function testCreate(): void

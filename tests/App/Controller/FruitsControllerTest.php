@@ -41,9 +41,9 @@ class FruitControllerTest extends WebTestCase
 
     public function testShow(): void
     {
-        // get id of first fruit
-        $id = $this->entityManager->getRepository(Fruit::class)->findAll()[0]->getId();
-        $this->client->request('GET', '/food/fruit/'.$id);
+        // get first fruit
+        $fuit = $this->entityManager->getRepository(Fruit::class)->findAll()[0];
+        $this->client->request('GET', '/food/fruit/'.$fuit->getId());
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
@@ -54,6 +54,8 @@ class FruitControllerTest extends WebTestCase
         $this->assertIsArray($responseData);
         $this->assertArrayHasKey('name', $responseData);
         $this->assertArrayHasKey('quantity', $responseData);
+
+        $this->assertSame($fuit->getName(), $responseData['name']);
     }
 
     public function testCreate(): void
